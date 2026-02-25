@@ -130,6 +130,10 @@ class Persona {
         return age
     }
 
+    presentarse() {
+        return `Hola, soy ${this.fullName()} y tengo ${this.getAge()} años`
+    }
+
     toObject() {
         const objetoNuevo = {
             id: this.#id,
@@ -168,4 +172,109 @@ console.log(persona1.name)
 console.log(persona2.getAge())
 
 persona1.setBirthDate('1994-02-20')
-console.log(persona1.birthDate)
+console.log(persona1.presentarse())
+
+// Herencia -> Nos permite pasar propiedades y métodos a otras clases hijas. para esto usaremos 
+            // extends y super
+
+
+class Estudiante extends Persona {
+    #career
+    #yearEnrollment
+    
+    constructor(name, lastName, birthDate, career, yearEnrollment) { // pasamos los paramatros en el mismo orden que la clase padre
+        super( name, lastName, birthDate)
+        this.#career = career
+        this.#yearEnrollment = yearEnrollment
+    }
+
+    // getters
+
+    get career() {
+        return this.#career
+    }
+
+    get yearEnrollment() {
+        return this.#yearEnrollment
+    }
+
+    presentarse() {
+        return `Hola, soy ${this.fullName()}, tengo ${this.getAge()} años y estudio ${this.#career} desde ${this.yearEnrollment}`;
+    }
+
+    toObject() {
+        return {
+            ...super.toObject(),
+            career: this.#career,
+            yearEnrollment :this.#yearEnrollment
+
+        }
+    }
+
+    toPublicObject() {
+        return {
+            ...super.toPublicObject(),
+            career: this.#career,
+            yearEnrollment: this.#yearEnrollment,
+        };
+    }
+}
+
+const estudiante = new Estudiante('José', 'Pérez', '2000-02-25', 'FullStack Web Javascript', '2025-11-27')
+
+console.log(estudiante.presentarse())
+
+
+class Profesor extends Persona {
+    #subject
+
+    constructor(name, lastName, birthDate, subject) {
+        super(name, lastName, birthDate)
+        this.#subject = subject
+    }
+
+    get subject() {
+        return this.#subject
+    }
+
+    enseñar() {
+        return `${this.fullName()} enseña ${this.#subject}`
+    }
+
+    presentarse() {
+        return `Hola, soy ${this.fullName()}, tengo ${this.getAge()} años y enseño ${this.subject}`;
+    }
+}
+
+const profesor = new Profesor('Alan', 'Eduardo', '1993-09-25', 'Desarrollo Web')
+
+console.log(profesor.presentarse())
+
+// Spread Operator -> Operador de esparcimiento
+
+const objeto1 = {
+    name: 'Sebastian',
+    lastName: 'Vera',
+    edad: 25
+}
+
+const objeto2 = {...objeto1}
+
+console.log(objeto1)
+console.log(objeto2)
+
+objeto2.colorPelo = 'azul'
+
+console.log(objeto2)
+console.log(objeto1)
+
+let numero1 = 5
+let numero2 = numero1
+
+console.log(numero1)
+console.log(numero2)
+
+numero2 = 10
+
+console.log(numero1);
+console.log(numero2);
